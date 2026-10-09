@@ -9,12 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class RevisionParserTest {
 
     @Test
-    public void canParseFirstRevisionAuthor() {
+    public void canParseRevision() {
         InputStream input = getClass().getResourceAsStream("/Zappa.json");
         assertNotNull(input);
 
         RevisionParser parser = new RevisionParser();
-        String username = parser.parse(input);
+        Revision revision = parser.parse(input);
+        Revision username = parser.parse(input);
 
         assertNotNull(username);
     }
