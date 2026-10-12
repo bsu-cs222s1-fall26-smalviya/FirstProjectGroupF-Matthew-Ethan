@@ -1,5 +1,6 @@
 package edu.bsu.cs;
 
+import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 import java.io.InputStream;
@@ -10,13 +11,13 @@ public class RevisionParser {
 
     public List<Revision> parse(InputStream input) {
         try {
-            List<String> usernames = JsonPath.read(
-                    input,
+            DocumentContext json = JsonPath.parse(input);
+
+            List<String> usernames = json.read(
                     "$.query.pages.*.revisions[*].user"
             );
 
-            List<String> timestamps = JsonPath.read(
-                    input,
+            List<String> timestamps = json.read(
                     "$.query.pages.*.revisions[*].timestamp"
             );
 
@@ -34,6 +35,7 @@ public class RevisionParser {
             return revisions;
 
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
