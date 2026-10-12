@@ -2,11 +2,11 @@ Matthew Osman
 
 
 
-Project Summary: 
+
 Program is a tool that uses an API to gather the 
 last 15 revisions of a specified Wikipedia article
 
-Build Instructions:
+
 Make sure all tests are successful by right-clicking 
 test folder and clicking
 Run 'Tests in 'WikipediaSearchTool.test''
