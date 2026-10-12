@@ -12,29 +12,16 @@ public class RevisionReporter {
         System.out.print("Enter a Wikipedia article name: ");
         String articleName = scanner.nextLine();
 
-        if (articleName.isEmpty()) {
-            System.err.println("No article name was entered.");
-            return;
-        }
-
         WikipediaClient client = new WikipediaClient();
         InputStream input = client.getRevisions(articleName);
 
         RevisionParser parser = new RevisionParser();
         List<Revision> revisions = parser.parse(input);
 
-        if (revisions == null || revisions.isEmpty()) {
-            System.err.println("Wikipedia article not found.");
-            return;
-        }
-
         RevisionFormatter formatter = new RevisionFormatter();
 
-        int count = 1;
-
         for (Revision revision : revisions) {
-            System.out.println(count + "  " + formatter.format(revision));
-            count++;
+            System.out.println(formatter.format(revision));
         }
     }
 }
