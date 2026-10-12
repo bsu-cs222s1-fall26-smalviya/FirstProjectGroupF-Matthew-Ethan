@@ -39,4 +39,21 @@ public class RevisionParser {
             return null;
         }
     }
+
+    public String getRedirect(InputStream input) {
+
+        try {
+            DocumentContext json = JsonPath.parse(input);
+
+            String redirect = json.read(
+                    "$.query.redirects[0].to"
+            );
+
+            return redirect;
+        }
+
+        catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -20,4 +20,15 @@ public class RevisionParserTest {
 
         assertEquals(4, revisions.size());
     }
+
+    @Test
+    public void canReadRedirect() {
+        InputStream input = getClass().getResourceAsStream("/Zappa.json");
+        assertNotNull(input);
+
+        RevisionParser parser = new RevisionParser();
+        String redirect = parser.getRedirect(input);
+
+        assertEquals("Frank Zappa", redirect);
+    }
 }
