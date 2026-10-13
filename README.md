@@ -18,3 +18,4 @@ and press the green arrow next to main class
 on line 9 to run the program.
 The Gradle Daemon will start, and ask you to
 enter the article name in the console window.
+Press enter to view results.
