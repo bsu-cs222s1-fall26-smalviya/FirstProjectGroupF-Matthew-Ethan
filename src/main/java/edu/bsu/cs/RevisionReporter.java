@@ -1,5 +1,6 @@
 package edu.bsu.cs;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Scanner;
@@ -20,21 +21,40 @@ public class RevisionReporter {
         WikipediaClient client = new WikipediaClient();
         InputStream input = client.getRevisions(articleName);
 
-        RevisionParser parser = new RevisionParser();
-        List<Revision> revisions = parser.parse(input);
-
-        if (revisions == null || revisions.isEmpty()) {
-            System.err.println("Wikipedia article not found.");
+        if (input == null) {
+            System.err.println("Failed to connect to Wikipedia.");
             return;
         }
 
-        RevisionFormatter formatter = new RevisionFormatter();
+        try {
 
-        int count = 1;
+            byte[] jsonBytes = input.readAllBytes();
 
-        for (Revision revision : revisions) {
-            System.out.println(count + "  " + formatter.format(revision));
-            count++;
+            RevisionParser parser = new RevisionParser();
+
+            String redirectTarget = parser.getRedirect(new ByteArrayInputStream(jsonBytes));
+            if (redirectTarget != null && !redirectTarget.isEmpty()) {
+                System.out.println("Redirected to " + redirectTarget);
+            }
+
+            // 2. Parse revisions using another fresh InputStream from the bytes
+            List<Revision> revisions = parser.parse(new ByteArrayInputStream(jsonBytes));
+
+            if (revisions == null || revisions.isEmpty()) {
+                System.err.println("Wikipedia article not found.");
+                return;
+            }
+
+            RevisionFormatter formatter = new RevisionFormatter();
+            int count = 1;
+
+            for (Revision revision : revisions) {
+                System.out.println(count + "  " + formatter.format(revision));
+                count++;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
