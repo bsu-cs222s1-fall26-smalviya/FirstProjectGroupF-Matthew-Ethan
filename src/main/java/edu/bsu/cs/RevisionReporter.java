@@ -37,7 +37,7 @@ public class RevisionReporter {
                 System.out.println("Redirected to " + redirectTarget);
             }
 
-            // 2. Parse revisions using another fresh InputStream from the bytes
+
             List<Revision> revisions = parser.parse(new ByteArrayInputStream(jsonBytes));
 
             if (revisions == null || revisions.isEmpty()) {
