@@ -11,6 +11,10 @@ public class RevisionReportResult {
         this.revisions = revisions;
     }
 
+    public String getRedirectTarget() {
+        return redirectTarget;
+    }
+
     public List<Revision> getRevisions() {
         return revisions;
     }

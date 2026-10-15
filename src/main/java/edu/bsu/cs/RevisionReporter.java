@@ -1,7 +1,5 @@
 package edu.bsu.cs;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,50 +9,39 @@ public class RevisionReporter {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter a Wikipedia article name: ");
-        String articleName = scanner.nextLine();
+        String articleName = scanner.nextLine().trim();
 
         if (articleName.isEmpty()) {
             System.err.println("No article name was entered.");
             return;
         }
 
-        WikipediaClient client = new WikipediaClient();
-        InputStream input = client.getRevisions(articleName);
+        WikipediaQueryBuilder queryBuilder = new WikipediaQueryBuilder();
+        WikipediaClient client = new WikipediaClient(queryBuilder);
+        RedirectParser redirectParser = new RedirectParser();
+        RevisionParser revisionParser = new RevisionParser();
+        RevisionReportService service = new RevisionReportService(client, redirectParser, revisionParser);
 
-        if (input == null) {
+        RevisionReportResult result = service.getReportForArticle(articleName);
+
+        if (result == null) {
             System.err.println("Failed to connect to Wikipedia.");
             return;
         }
 
-        try {
+        if (result.hasRedirect()) {
+            System.out.println("Redirected to " + result.getRedirectTarget());
+        }
 
-            byte[] jsonBytes = input.readAllBytes();
+        if (result.isEmpty()) {
+            System.err.println("Wikipedia article not found.");
+            return;
+        }
 
-            RevisionParser parser = new RevisionParser();
-
-            String redirectTarget = parser.getRedirect(new ByteArrayInputStream(jsonBytes));
-            if (redirectTarget != null && !redirectTarget.isEmpty()) {
-                System.out.println("Redirected to " + redirectTarget);
-            }
-
-
-            List<Revision> revisions = parser.parse(new ByteArrayInputStream(jsonBytes));
-
-            if (revisions == null || revisions.isEmpty()) {
-                System.err.println("Wikipedia article not found.");
-                return;
-            }
-
-            RevisionFormatter formatter = new RevisionFormatter();
-            int count = 1;
-
-            for (Revision revision : revisions) {
-                System.out.println(count + "  " + formatter.format(revision));
-                count++;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        RevisionFormatter formatter = new RevisionFormatter();
+        List<Revision> revisions = result.getRevisions();
+        for (int i = 0; i < revisions.size(); i++) {
+            System.out.println((i + 1) + "  " + formatter.format(revisions.get(i)));
         }
     }
 }
