@@ -6,13 +6,14 @@ import java.net.URLConnection;
 
 public class WikipediaClient {
 
-    public InputStream getRevisions(String articleName) {
-        try {
-            String urlString =
-                    "https://en.wikipedia.org/w/api.php?action=query&format=json"
-                            + "&prop=revisions&titles=" + articleName
-                            + "&rvprop=timestamp%7Cuser&rvlimit=15&redirects";
+    private final WikipediaQueryBuilder queryBuilder;
 
+    public WikipediaClient(WikipediaQueryBuilder queryBuilder) {
+        this.queryBuilder = queryBuilder;
+    }
+    public InputStream fetchRevisionData(String articleName) {
+        try {
+            String urlString = queryBuilder.buildRevisionsUrl(articleName);
             URL url = new URL(urlString);
             URLConnection connection = url.openConnection();
 
@@ -20,10 +21,10 @@ public class WikipediaClient {
                     "User-Agent",
                     "Revision Reporter/0.1"
             );
-
             return connection.getInputStream();
+        }
 
-        } catch (Exception e) {
+        catch (Exception e) {
             return null;
         }
     }

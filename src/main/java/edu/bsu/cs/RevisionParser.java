@@ -24,17 +24,14 @@ public class RevisionParser {
             List<Revision> revisions = new ArrayList<>();
 
             for (int i = 0; i < usernames.size(); i++) {
-                Revision revision = new Revision(
-                        usernames.get(i),
-                        timestamps.get(i)
-                );
-
-                revisions.add(revision);
+                revisions.add(new Revision(usernames.get(i), timestamps.get(i)));
             }
 
             return revisions;
 
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
             e.printStackTrace();
             return null;
         }
