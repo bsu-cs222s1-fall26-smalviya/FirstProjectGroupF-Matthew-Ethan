@@ -1,7 +1,6 @@
 package edu.bsu.cs;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -32,7 +31,7 @@ public class Main extends Application {
 
         revisionListView = new ListView<>();
 
-        submitButton.setOnAction(e -> handleSearch());
+        submitButton.setOnAction(ignored -> handleSearch());
 
         HBox inputBox = new HBox(10, articleInput, submitButton);
         inputBox.setPadding(new Insets(10));
@@ -71,7 +70,7 @@ public class Main extends Application {
             }
         };
 
-        task.setOnSucceeded(e -> {
+        task.setOnSucceeded(ignored -> {
             setInteractionEnabled(true);
             statusLabel.setText("");
             RevisionReportResult result = task.getValue();
@@ -98,7 +97,7 @@ public class Main extends Application {
             }
         });
 
-        task.setOnFailed(e -> {
+        task.setOnFailed(ignored -> {
             setInteractionEnabled(true);
             statusLabel.setText("");
             showAlert("Error", "An unexpected error occurred during the query.");
@@ -120,7 +119,8 @@ public class Main extends Application {
         alert.showAndWait();
     }
 
-    public static void main(String[] args) {
+    @SuppressWarnings("unused")
+    static void main(String[] args) {
         launch(args);
     }
 }

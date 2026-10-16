@@ -6,7 +6,7 @@ An application that fetches and displays recent revision history
 and redirect information for Wikipedia articles
 
 
-Running through the Console: Press the green arrow next to the
+Running the CLI: Press the green arrow next to the
 main method on line 8 of the RevisionReporter class.
 Then, type the article you wish to search in the console window.
 
