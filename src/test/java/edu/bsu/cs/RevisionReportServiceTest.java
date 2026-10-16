@@ -39,7 +39,7 @@ public class RevisionReportServiceTest {
         assertNotNull(result);
         assertEquals("RedirectTarget", result.getRedirectTarget());
         assertEquals(1, result.getRevisions().size());
-        assertEquals("User1", result.getRevisions().get(0).getUsername());
+        assertEquals("User1", result.getRevisions().getFirst().getUsername());
     }
 
     @Test
