@@ -17,19 +17,18 @@ public class RevisionReportService {
     }
 
     public RevisionReportResult getReportForArticle(String articleName) {
-        InputStream input = client.fetchRevisionData(articleName);
-        if(input == null) {
-            return null;
-        }
+        try (InputStream input = client.fetchRevisionData(articleName)) {
+            if(input == null) {
+                return null;
+            }
 
-        try {
             byte[] jsonBytes = input.readAllBytes();
 
             String redirectTarget = redirectParser.parse(new ByteArrayInputStream(jsonBytes));
             List<Revision> revisions = revisionParser.parse(new ByteArrayInputStream(jsonBytes));
 
             return new RevisionReportResult(redirectTarget, revisions);
-    }
+        }
         catch (Exception e) {
             return null;
         }

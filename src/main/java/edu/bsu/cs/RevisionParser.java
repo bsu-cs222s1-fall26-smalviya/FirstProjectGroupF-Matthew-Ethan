@@ -32,7 +32,6 @@ public class RevisionParser {
         }
 
         catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -42,11 +41,11 @@ public class RevisionParser {
         try {
             DocumentContext json = JsonPath.parse(input);
 
-            String redirect = json.read(
+
+
+            return json.read(
                     "$.query.redirects[0].to"
             );
-
-            return redirect;
         }
 
         catch (Exception e) {

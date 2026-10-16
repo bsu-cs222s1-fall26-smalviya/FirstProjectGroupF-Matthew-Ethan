@@ -14,7 +14,7 @@ public class RedirectParser {
             List<String> redirects = json.read("$.query.redirects[*].to");
 
             if (redirects != null && !redirects.isEmpty()) {
-                return redirects.get(0);
+                return redirects.getFirst();
             }
             return null;
         } catch (Exception e) {

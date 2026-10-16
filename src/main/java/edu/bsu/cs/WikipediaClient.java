@@ -1,6 +1,7 @@
 package edu.bsu.cs;
 
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -14,7 +15,7 @@ public class WikipediaClient {
     public InputStream fetchRevisionData(String articleName) {
         try {
             String urlString = queryBuilder.buildRevisionsUrl(articleName);
-            URL url = new URL(urlString);
+            URL url = URI.create(urlString).toURL();
             URLConnection connection = url.openConnection();
 
             connection.setRequestProperty(

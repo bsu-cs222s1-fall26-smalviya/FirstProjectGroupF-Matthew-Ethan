@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 public class RevisionReporter {
 
-    public static void main(String[] args) {
+    @SuppressWarnings("unused")
+     static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter a Wikipedia article name: ");
