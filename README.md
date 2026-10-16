@@ -1,21 +1,15 @@
 Matthew Osman
+
 Ethan Haas
 
+An application that fetches and displays recent revision history
+and redirect information for Wikipedia articles
 
 
-Program is a tool that uses an API to gather the 
-last 15 revisions of a specified Wikipedia article
+Running through the Console: Press the green arrow next to the
+main method on line 8 of the RevisionReporter class.
+Then, type the article you wish to search in the console window.
 
-
-To run the application,
-first make sure all tests are successful by right-clicking 
-test folder and clicking
-Run 'Tests in 'WikipediaSearchTool.test''
-with the green arrow next to it.
-Once all tests return successful,
-go to RevisionReporter in main folder,
-and press the green arrow next to main class
-on line 9 to run the program.
-The Gradle Daemon will start, and ask you to
-enter the article name in the console window.
-Press enter to view results.
+Running the GUI: Open the terminal and type in the command ./gradlew run.
+Press enter, and the GUI will open. Enter the article name and press enter
+or press the 'Get Revisions' button to view the revisions.
